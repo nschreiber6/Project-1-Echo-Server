@@ -25,7 +25,7 @@ int processConnection(int sockFd) {
     char buffer[1024] = {0};
     int bytesRead = 0;
     if (bytesRead = read(fd,buffer,10) < 0 ) {
-      std::cout << stderr(errno) << std::endl;
+      std::cout << stderror(errno) << std::endl;
       exit(-1);
     }
     DEBUG << "Calling read(" << fd << buffer << ")"<< ENDL;
@@ -51,7 +51,7 @@ int processConnection(int sockFd) {
       //
       int bytesWritten = 0;
       if ((bytesWritten = write(fd,buffer,bytesRead)) < 0) {
-        std::cout << stderr(errno) << std::endl;
+        std::cout << stderror(errno) << std::endl;
         exit(-1);
       }
       DEBUG << "Calling write(" << fd << buffer << ")"<< ENDL;
@@ -171,7 +171,7 @@ int main (int argc, char *argv[]) {
       std::cout << "accept() failed: " << strerror(errno) << std::endl;
       exit(-1);
     }
-    createThreadAndProcess(connFd);
+  //  createThreadAndProcess(connFd);
     // The accept() call checks the listening queue for connection requests.
     // If a client has already tried to connect accept() will complete the
     // connection and return a file descriptor that you can read from and
