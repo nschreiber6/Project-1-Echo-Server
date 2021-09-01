@@ -20,15 +20,43 @@ int processConnection(int sockFd) {
     // Call read() call to get a buffer/line from the client.
     // Hint - don't forget to zero out the buffer each time you use it.
     //
+    int fd= open(filename);
+    char buffer[1024] = {0};
+    int bytesRead = 0;
+    if (bytesRead = read(fd,buffer,10) < 0 ) {
+      cout << strerr(errno) << endl;
+      exit();
+    }
+    DEBUG << "Calling read(" << fd << buffer << ")"<< ENDL;
 
     //
     // Check for one of the commands
     //
+    // If CLOSE, close the connection and start waiting for another connection.
+    // If QUIT, close the connection and the listening socket and exit your program.
+    if(buffer == "QUIT") {
+      DEBUG << "Data included QUIT" << ENDL;
+      close(sockFd);
+      quitProgram = false;
+    }
+    else if(buffer == "CLOSE") {
+      DEBUG << "Data included CLOSE" << ENDL;
+      close(sockFd);
+      quitProgram = 1; 
+    }
+    else {
+      //
+      // Call write() to send line back to the client.
+      //
+      int bytesWritten = 0;
+      if ((bytesWritten = write(fd,buffer,bytesRead)) < 0) {
+        cout << strerr(errno) << endl;
+        exit();
+      }
+      DEBUG << "Calling write(" << fd << buffer << ")"<< ENDL;
 
-    //
-    // Call write() to send line back to the client.
-    //
-
+    }
+    
   }
 
   return quitProgram;
@@ -72,7 +100,12 @@ int main (int argc, char *argv[]) {
   // ********************************************************************
   int     listenFd = -1;
        // Call socket() to create the socket you will use for lisening.
+  if ((listenFd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+    cout << "Failed to create listening socket " << strerror(errno) <<  endl;
+    exit(-1);
+  }     
   DEBUG << "Calling Socket() assigned file descriptor " << listenFd << ENDL;
+  
 
   
   // ********************************************************************
@@ -98,8 +131,15 @@ int main (int argc, char *argv[]) {
   DEBUG << "Calling bind(" << listenFd << "," << &servaddr << "," << sizeof(servaddr) << ")" << ENDL;
   int bindSuccesful = 0;
   while (!bindSuccesful) {
-    // You may have to call bind multiple times if another process is already using the port
-    // your program selects.
+    // set and assign the port (if it fails it will choos e a new pot)
+    port = (rand() % 10000) + 1024;
+    servaddr.sin_port = htons(port);
+
+    if (bind(listenFd, (sockaddr *) &servaddr, sizeof(servaddr)) < 0) {
+      cout << "bind() failed: " << strerror(errno) <<  endl;
+      exit(-1);
+    }
+    bindSuccesful = true;
   }
   std::cout << "Using port " << port << std::endl;
 
@@ -111,7 +151,10 @@ int main (int argc, char *argv[]) {
   // ********************************************************************
   int listenQueueLength = 1;
   DEBUG << "Calling listen(" << listenFd << "," << listenQueueLength << ")" << ENDL;
- 
+  if (listen(listenfd, listenQueueLength) < 0) {
+    cout << "listen() failed: " << strerror(errno) <<  endl;
+    exit(-1);
+  }
 
   // ********************************************************************
   // * The accept call will sleep, waiting for a connection.  When 
@@ -123,7 +166,11 @@ int main (int argc, char *argv[]) {
     int connFd = 0;
 
     DEBUG << "Calling accept(" << listenFd << "NULL,NULL)." << ENDL;
-
+    if ((connfd = accept(listenfd, (sockaddr *) NULL, NULL)) < 0) {
+      cout << "accept() failed: " << strerror(errno) <<  endl;
+      exit(-1);
+    }
+    createThreadAndProcess(connfd);
     // The accept() call checks the listening queue for connection requests.
     // If a client has already tried to connect accept() will complete the
     // connection and return a file descriptor that you can read from and
