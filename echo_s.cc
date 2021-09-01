@@ -20,7 +20,7 @@ int processConnection(int sockFd) {
     // Call read() call to get a buffer/line from the client.
     // Hint - don't forget to zero out the buffer each time you use it.
     //
-    filename = "echoFile.txt";
+    char filename[] = "echoFile.txt";
     int fd= open(filename);
     char buffer[1024] = {0};
     int bytesRead = 0;
@@ -102,7 +102,7 @@ int main (int argc, char *argv[]) {
   int     listenFd = -1;
        // Call socket() to create the socket you will use for lisening.
   if ((listenFd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-    cout << "Failed to create listening socket " << strerror(errno) << std::endl;
+    std::cout << "Failed to create listening socket " << strerror(errno) << std::endl;
     exit(-1);
   }     
   DEBUG << "Calling Socket() assigned file descriptor " << listenFd << ENDL;
@@ -137,7 +137,7 @@ int main (int argc, char *argv[]) {
     servaddr.sin_port = htons(port);
 
     if (bind(listenFd, (sockaddr *) &servaddr, sizeof(servaddr)) < 0) {
-      std::cout << "bind() failed: " << stderror(errno) << std::endl;
+      std::cout << "bind() failed: " << strerror(errno) << std::endl;
       exit(-1);
     }
     bindSuccesful = true;
@@ -153,7 +153,7 @@ int main (int argc, char *argv[]) {
   int listenQueueLength = 1;
   DEBUG << "Calling listen(" << listenFd << "," << listenQueueLength << ")" << ENDL;
   if (listen(listenFd, listenQueueLength) < 0) {
-    std::cout << "listen() failed: " << stderror(errno) << std::endl;
+    std::cout << "listen() failed: " << strerror(errno) << std::endl;
     exit(-1);
   }
 
@@ -168,7 +168,7 @@ int main (int argc, char *argv[]) {
 
     DEBUG << "Calling accept(" << listenFd << "NULL,NULL)." << ENDL;
     if ((connFd = accept(listenFd, (sockaddr *) NULL, NULL)) < 0) {
-      std::cout << "accept() failed: " << stderror(errno) << std::endl;
+      std::cout << "accept() failed: " << strerror(errno) << std::endl;
       exit(-1);
     }
     createThreadAndProcess(connFd);
