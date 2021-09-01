@@ -37,12 +37,10 @@ int processConnection(int sockFd) {
     // If QUIT, close the connection and the listening socket and exit your program.
     if(buffer == "QUIT") {
       DEBUG << "Data included QUIT" << ENDL;
-      close(sockFd);
       quitProgram = false;
     }
     else if(buffer == "CLOSE") {
       DEBUG << "Data included CLOSE" << ENDL;
-      close(sockFd);
       quitProgram = 1; 
     }
     else {
@@ -57,7 +55,7 @@ int processConnection(int sockFd) {
       DEBUG << "Calling write(" << fd << buffer << ")"<< ENDL;
 
     }
-    
+    close(sockFd);
   }
 
   return quitProgram;
