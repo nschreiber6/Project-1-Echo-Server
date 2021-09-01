@@ -21,7 +21,7 @@ int processConnection(int sockFd) {
     // Hint - don't forget to zero out the buffer each time you use it.
     //
     char filename[] = "echoFile.txt";
-    int fd= open(filename);
+    int fd= open(filename, O_APPEND | O_CREAT | O_RDWR);
     char buffer[1024] = {0};
     int bytesRead = 0;
     if (bytesRead = read(fd,buffer,10) < 0 ) {
