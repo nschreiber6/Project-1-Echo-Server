@@ -21,11 +21,15 @@ int processConnection(int sockFd) {
     // Hint - don't forget to zero out the buffer each time you use it.
     //
     char filename[] = "echoFile.txt";
-    int fd= open(filename, O_APPEND | O_CREAT | O_RDWR);
+    int fd = open(filename, O_APPEND | O_CREAT | O_RDWR);
+    if (fd == -1){
+      std::cout << "open failed" << strerror(errno) << std::endl;
+      exit(-1);
+    }
     char buffer[1024] = {0};
     int bytesRead = 0;
     if (bytesRead = read(fd,buffer,10) < 0 ) {
-      std::cout << strerror(errno) << std::endl;
+      std::cout << "read failed" << strerror(errno) << std::endl;
       exit(-1);
     }
     DEBUG << "Calling read(" << fd << buffer << ")"<< ENDL;
@@ -36,12 +40,16 @@ int processConnection(int sockFd) {
     // If CLOSE, close the connection and start waiting for another connection.
     // If QUIT, close the connection and the listening socket and exit your program.
     if(buffer == "QUIT") {
+      close(sockFd);
       DEBUG << "Data included QUIT" << ENDL;
+      keepGoing = false;
       quitProgram = false;
     }
     else if(buffer == "CLOSE") {
+      close(sockFd);
       DEBUG << "Data included CLOSE" << ENDL;
       quitProgram = 1; 
+      keepGoing = false;
     }
     else {
       //
@@ -49,13 +57,11 @@ int processConnection(int sockFd) {
       //
       int bytesWritten = 0;
       if ((bytesWritten = write(fd,buffer,bytesRead)) < 0) {
-        std::cout << strerror(errno) << std::endl;
+        std::cout << "write failed" <<strerror(errno) << std::endl;
         exit(-1);
       }
       DEBUG << "Calling write(" << fd << buffer << ")"<< ENDL;
-
     }
-    close(sockFd);
   }
 
   return quitProgram;
