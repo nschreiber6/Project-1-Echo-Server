@@ -25,7 +25,7 @@ int processConnection(int sockFd) {
     char buffer[1024] = {0};
     int bytesRead = 0;
     if (bytesRead = read(fd,buffer,10) < 0 ) {
-      std::cout << stderror(errno) << std::endl;
+      std::cout << strerror(errno) << std::endl;
       exit(-1);
     }
     DEBUG << "Calling read(" << fd << buffer << ")"<< ENDL;
@@ -51,7 +51,7 @@ int processConnection(int sockFd) {
       //
       int bytesWritten = 0;
       if ((bytesWritten = write(fd,buffer,bytesRead)) < 0) {
-        std::cout << stderror(errno) << std::endl;
+        std::cout << strerror(errno) << std::endl;
         exit(-1);
       }
       DEBUG << "Calling write(" << fd << buffer << ")"<< ENDL;
