@@ -21,7 +21,7 @@ int processConnection(int sockFd) {
     // Hint - don't forget to zero out the buffer each time you use it.
     //
     char filename[] = "echoFile.txt";
-    int fd = open(filename, O_APPEND | O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
+    int fd = open(filename, O_CREAT | O_RDWR | O_APPEND, S_IRUSR | S_IWUSR);
     if (fd == -1){
       std::cout << "open failed" << strerror(errno) << std::endl;
       exit(-1);
