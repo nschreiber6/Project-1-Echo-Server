@@ -29,7 +29,7 @@ int processConnection(int sockFd) {
 
     char buffer[1024] = {0};
     int bytesRead = 0;
-    if (bytesRead = read(sockFd,buffer,10) < 0 ) {
+    if (bytesRead = read(sockFd,buffer,1024) < 0 ) {
       std::cout << "read failed" << strerror(errno) << std::endl;
       exit(-1);
     }
