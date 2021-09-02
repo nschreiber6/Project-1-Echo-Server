@@ -36,7 +36,7 @@ int processConnection(int sockFd) {
     char message[bytesRead] = {0}
     int i = 0;
     for (i < bytesRead; i++){
-      message[i] = buffer[i]
+      message[i] = buffer[i];
     }
     DEBUG << "Calling read(" << sockFd << message << ")"<< ENDL;
     DEBUG << "Recieved " << bytesRead << ", containing the string " << buffer << ENDL;
