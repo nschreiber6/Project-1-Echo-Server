@@ -49,12 +49,12 @@ int processConnection(int sockFd) {
       close(sockFd);
       DEBUG << "Data included QUIT" << ENDL;
       keepGoing = false;
-      quitProgram = 0;
+      quitProgram = 1;
     }
     else if( strcmp(message, "CLOSE") == 0) {
       close(sockFd);
       DEBUG << "Data included CLOSE" << ENDL;
-      quitProgram = 1; 
+      quitProgram = 0; 
       keepGoing = false;
     }
     else {
@@ -66,7 +66,7 @@ int processConnection(int sockFd) {
         std::cout << "write failed" <<strerror(errno) << std::endl;
         exit(-1);
       }
-      DEBUG << "Calling write(" << sockFd << ", " << message << ")"<< ENDL;
+      DEBUG << "Calling write(" << sockFd << ", " << message << ", " << bytesRead << ")"<< ENDL;
     }
   }
 
