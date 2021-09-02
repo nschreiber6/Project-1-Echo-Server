@@ -33,7 +33,7 @@ int processConnection(int sockFd) {
       std::cout << "read failed" << strerror(errno) << std::endl;
       exit(-1);
     }
-    char message[bytesRead] = {0}
+    char message[bytesRead] = {0};
     int i = 0;
     for (i < bytesRead; i++){
       message[i] = buffer[i];
