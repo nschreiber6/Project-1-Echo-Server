@@ -34,7 +34,8 @@ int processConnection(int sockFd) {
       exit(-1);
     }
     char message[bytesRead] = {0}
-    for (int i = 0; i < bytesRead; i++){
+    int i = 0;
+    for (i < bytesRead; i++){
       message[i] = buffer[i]
     }
     DEBUG << "Calling read(" << sockFd << message << ")"<< ENDL;
