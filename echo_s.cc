@@ -181,7 +181,6 @@ int main (int argc, char *argv[]) {
       std::cout << "accept() failed: " << strerror(errno) << std::endl;
       exit(-1);
     }
-  //  createThreadAndProcess(connFd);
     // The accept() call checks the listening queue for connection requests.
     // If a client has already tried to connect accept() will complete the
     // connection and return a file descriptor that you can read from and
@@ -197,5 +196,5 @@ int main (int argc, char *argv[]) {
   }
 
   close(listenFd);
-
+  return 0;
 }
