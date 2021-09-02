@@ -33,7 +33,7 @@ int processConnection(int sockFd) {
       std::cout << "read failed" << strerror(errno) << std::endl;
       exit(-1);
     }
-    std::string message[bytesRead] = {0};
+    char message[bytesRead] = {0};
     
     for(int i = 0; i < bytesRead-1; i++){
       message[i] = buffer[i];
@@ -45,13 +45,13 @@ int processConnection(int sockFd) {
     //
     // If CLOSE, close the connection and start waiting for another connection.
     // If QUIT, close the connection and the listening socket and exit your program.
-    if(message == "QUIT") {
+    if( strcmp(message,"QUIT") == 0) {
       close(sockFd);
       DEBUG << "Data included QUIT" << ENDL;
       keepGoing = false;
       quitProgram = false;
     }
-    else if(message == "CLOSE") {
+    else if( strcmp(message, "CLOSE") == 0) {
       close(sockFd);
       DEBUG << "Data included CLOSE" << ENDL;
       quitProgram = 1; 
