@@ -14,12 +14,12 @@ int processConnection(int sockFd) {
 
   int quitProgram = 0;
   int keepGoing = 1;    
-  char filename[] = "echoFile.txt";
-  int fd = open(filename, O_CREAT | O_RDWR | O_APPEND, S_IRUSR | S_IWUSR);
-  if (fd == -1){
-    std::cout << "open failed" << strerror(errno) << std::endl;
-    exit(-1);
-  }
+  // char filename[] = "echoFile.txt";
+  // int fd = open(filename, O_CREAT | O_RDWR | O_APPEND, S_IRUSR | S_IWUSR);
+  // if (fd == -1){
+  //   std::cout << "open failed" << strerror(errno) << std::endl;
+  //   exit(-1);
+  // }
   while (keepGoing) {
 
     //
@@ -29,11 +29,11 @@ int processConnection(int sockFd) {
 
     char buffer[1024] = {0};
     int bytesRead = 0;
-    if (bytesRead = read(fd,buffer,10) < 0 ) {
+    if (bytesRead = read(sockFd,buffer,10) < 0 ) {
       std::cout << "read failed" << strerror(errno) << std::endl;
       exit(-1);
     }
-    DEBUG << "Calling read(" << fd << buffer << ")"<< ENDL;
+    DEBUG << "Calling read(" << sockFd << buffer << ")"<< ENDL;
     DEBUG << "Recieved " << bytesRead<< ", containing the string " << buffer << ENDL;
     //
     // Check for one of the commands
@@ -57,11 +57,11 @@ int processConnection(int sockFd) {
       // Call write() to send line back to the client.
       //
       int bytesWritten = 0;
-      if ((bytesWritten = write(fd,buffer,bytesRead)) < 0) {
+      if ((bytesWritten = write(sockFd,buffer,bytesRead)) < 0) {
         std::cout << "write failed" <<strerror(errno) << std::endl;
         exit(-1);
       }
-      DEBUG << "Calling write(" << fd << buffer << ")"<< ENDL;
+      DEBUG << "Calling write(" << sockFd << buffer << ")"<< ENDL;
     }
   }
 
