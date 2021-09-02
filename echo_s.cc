@@ -38,7 +38,7 @@ int processConnection(int sockFd) {
     for(int i = 0; i < bytesRead-1; i++){
       message[i] = buffer[i];
     }
-    DEBUG << "Calling read(" << sockFd << message << ")"<< ENDL;
+    DEBUG << "Calling read(" << sockFd << ", "<< message << ")"<< ENDL;
     DEBUG << "Recieved " << bytesRead << ", containing the string " << message << ENDL;
     //
     // Check for one of the commands
@@ -66,7 +66,7 @@ int processConnection(int sockFd) {
         std::cout << "write failed" <<strerror(errno) << std::endl;
         exit(-1);
       }
-      DEBUG << "Calling write(" << sockFd <<message << ")"<< ENDL;
+      DEBUG << "Calling write(" << sockFd << ", " << message << ")"<< ENDL;
     }
   }
 
