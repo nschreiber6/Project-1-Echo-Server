@@ -34,7 +34,7 @@ int processConnection(int sockFd) {
       exit(-1);
     }
     DEBUG << "Calling read(" << fd << buffer << ")"<< ENDL;
-    DEBUG << "Recieved " << str(bytesRead)<< ", containing the string " << buffer << ENDL;
+    DEBUG << "Recieved " << bytesRead<< ", containing the string " << buffer << ENDL;
     //
     // Check for one of the commands
     //
