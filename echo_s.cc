@@ -33,20 +33,20 @@ int processConnection(int sockFd) {
       std::cout << "read failed" << strerror(errno) << std::endl;
       exit(-1);
     }
-    DEBUG << "Calling read(" << sockFd << buffer << ")"<< ENDL;
-    DEBUG << "Recieved " << bytesRead << "size: " << sizeof(buffer) << ", containing the string " << buffer << ENDL;
+    DEBUG << "Calling read(" << sockFd << buffer[0:bytesRead-1] << ")"<< ENDL;
+    DEBUG << "Recieved " << bytesRead << ", containing the string " << buffer << ENDL;
     //
     // Check for one of the commands
     //
     // If CLOSE, close the connection and start waiting for another connection.
     // If QUIT, close the connection and the listening socket and exit your program.
-    if(buffer == "QUIT") {
+    if(buffer[0:bytesRead-1] == "QUIT") {
       close(sockFd);
       DEBUG << "Data included QUIT" << ENDL;
       keepGoing = false;
       quitProgram = false;
     }
-    else if(buffer == "CLOSE") {
+    else if(buffer[0:bytesRead-1] == "CLOSE") {
       close(sockFd);
       DEBUG << "Data included CLOSE" << ENDL;
       quitProgram = 1; 
@@ -61,7 +61,7 @@ int processConnection(int sockFd) {
         std::cout << "write failed" <<strerror(errno) << std::endl;
         exit(-1);
       }
-      DEBUG << "Calling write(" << sockFd << buffer << ")"<< ENDL;
+      DEBUG << "Calling write(" << sockFd << buffer[0:bytesRead-1] << ")"<< ENDL;
     }
   }
 
