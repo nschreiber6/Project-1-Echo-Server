@@ -49,7 +49,7 @@ int processConnection(int sockFd) {
       close(sockFd);
       DEBUG << "Data included QUIT" << ENDL;
       keepGoing = false;
-      quitProgram = false;
+      quitProgram = 0;
     }
     else if( strcmp(message, "CLOSE") == 0) {
       close(sockFd);
