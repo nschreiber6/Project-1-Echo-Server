@@ -33,6 +33,10 @@ int processConnection(int sockFd) {
       std::cout << "read failed" << strerror(errno) << std::endl;
       exit(-1);
     }
+    char message[bytesRead] = {0}
+    for (int i = 0; i < bytesRead; i++){
+      message[i] = buffer[i]
+    }
     DEBUG << "Calling read(" << sockFd << buffer.erase(bytesRead) << ")"<< ENDL;
     DEBUG << "Recieved " << bytesRead << ", containing the string " << buffer << ENDL;
     //
