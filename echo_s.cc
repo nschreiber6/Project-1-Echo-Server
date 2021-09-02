@@ -13,19 +13,20 @@
 int processConnection(int sockFd) {
 
   int quitProgram = 0;
-  int keepGoing = 1;
+  int keepGoing = 1;    
+  char filename[] = "echoFile.txt";
+  int fd = open(filename, O_CREAT | O_RDWR | O_APPEND, S_IRUSR | S_IWUSR);
+  if (fd == -1){
+    std::cout << "open failed" << strerror(errno) << std::endl;
+    exit(-1);
+  }
   while (keepGoing) {
 
     //
     // Call read() call to get a buffer/line from the client.
     // Hint - don't forget to zero out the buffer each time you use it.
     //
-    char filename[] = "echoFile.txt";
-    int fd = open(filename, O_CREAT | O_RDWR | O_APPEND, S_IRUSR | S_IWUSR);
-    if (fd == -1){
-      std::cout << "open failed" << strerror(errno) << std::endl;
-      exit(-1);
-    }
+
     char buffer[1024] = {0};
     int bytesRead = 0;
     if (bytesRead = read(fd,buffer,10) < 0 ) {
@@ -33,7 +34,7 @@ int processConnection(int sockFd) {
       exit(-1);
     }
     DEBUG << "Calling read(" << fd << buffer << ")"<< ENDL;
-
+    DEBUG << "Recieved %d, containing the string %s", bytesRead, buffer << ENDL;
     //
     // Check for one of the commands
     //
