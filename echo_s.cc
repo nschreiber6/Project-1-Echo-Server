@@ -44,13 +44,13 @@ int processConnection(int sockFd) {
     //
     // If CLOSE, close the connection and start waiting for another connection.
     // If QUIT, close the connection and the listening socket and exit your program.
-    if(buffer.erase(bytesRead) == "QUIT") {
+    if(message == "QUIT") {
       close(sockFd);
       DEBUG << "Data included QUIT" << ENDL;
       keepGoing = false;
       quitProgram = false;
     }
-    else if(buffer.erase(bytesRead) == "CLOSE") {
+    else if(message == "CLOSE") {
       close(sockFd);
       DEBUG << "Data included CLOSE" << ENDL;
       quitProgram = 1; 
